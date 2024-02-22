@@ -1,0 +1,3 @@
+const { readPlayerStrings } = require('./');
+
+readPlayerStrings();

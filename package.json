@@ -1,0 +1,19 @@
+{
+  "name": "pokered-hebrew",
+  "version": "1.0.0",
+  "description": "This is a disassembly of Pokémon Red and Blue.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/nikfrank/pokemon-red-hebrew.git"
+  },
+  "author": "nik frank per code israel",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/nikfrank/pokemon-red-hebrew/issues"
+  },
+  "homepage": "https://github.com/nikfrank/pokemon-red-hebrew#readme"
+}
