@@ -20,9 +20,14 @@ const noXcommands = [
   'def',
   'redef',
   'fail',
+  'println',
+  'text_far',
 ];
 
-const fn = 1102; // data/text/text_1.asm (_OaksAideHereYouGoText)
+const fn = 1446; //../pokered/home/text.asm
+//const fn = 397; // ../pokered/constants/item_constants.asm
+// const fn = 1203; // ../pokered/engine/battle/battle_transitions.asm
+// const fn = 1102; // data/text/text_1.asm (_OaksAideHereYouGoText)
 // const fn = 1205; // battle/code.asm
 //const fn = 1318; // main_menu
 //const fn = 1800; // poke tower 6f
@@ -39,35 +44,35 @@ const readPlayerStrings = async ()=>{
   ))).split('\n');
 
   // console.log(files[fn]);
-  // console.log(files.slice(1800, 1810), files.findIndex(n=> (n.includes('text_1'))));
-  // return;
+  //console.log(files.slice(1800, 1810), files.findIndex(n=> (n.includes('../pokered/home/text.asm'))));
+  //return;
   let blocks = [];
   const blockIndex = {};
 
-  const setBlock = (filename, label, command, lineNumber)=>{
-    // console.log(filename, label, lineNumber, command);
+  const setBlock = (file, label, command, lineNumber)=>{
+    // console.log(file, label, lineNumber, command);
     
     let existingBlock = blocks[
-      (blockIndex[filename]||{})[label]
+      (blockIndex[file]||{})[label]
     ];
 
     if( !existingBlock ){
-      blocks = [...blocks, { filename, label, commands: [] }];
+      blocks = [...blocks, { file, label, cmds: [] }];
 
-      blockIndex[filename] = blockIndex[filename] || {};
-      blockIndex[filename][label] = blocks.length - 1;
+      blockIndex[file] = blockIndex[file] || {};
+      blockIndex[file][label] = blocks.length - 1;
 
       existingBlock = blocks[
-        blockIndex[filename][label]
+        blockIndex[file][label]
       ];
     }
 
     // console.log(existingBlock);
 
-    existingBlock.commands = [
-      ...existingBlock.commands,
+    existingBlock.cmds = [
+      ...existingBlock.cmds,
       {
-        filename, label, command, lineNumber
+        cmd: command, ln: lineNumber
       },
     ];
   };
@@ -76,40 +81,47 @@ const readPlayerStrings = async ()=>{
 
   await Promise.all( files
     .filter(i=>i)
-    //.slice(fn, fn+6)
+    //.slice(fn, fn+1)
     .map(async (file)=>{
       const content = await fs.readFile(file, { encoding: 'utf-8' });
       // console.log(content);
 
-      let label, labelLOC, prevLabel, routine, routineLOC;
+      let label, labelLOC, prevLabel, routine, routineLOC, postLabel;
       
       content.split('\n').forEach(async (line, ln)=>{
+        postLabel = line;
+        
         const nextLabel = line.match(/^\w+\:/);
         if(nextLabel){
-          label = nextLabel[0];
+          label = nextLabel[0].slice(0,-1);
           labelLOC = ln;
           routine = '';
           routineLOC = -1;
+
+          postLabel = line.substr(label.length+1);
         }
 
-        const nextRoutine = line.match(/^\.\w+$/);
+        postLabel = postLabel.split(';')[0];
+
+        const nextRoutine = postLabel.match(/^\.\w+$/);
         if(nextRoutine){
           routine = nextRoutine[0];
           routineLOC = ln;
         }
 
-        const genCommand = line.match(/^\s*(\w+)/);
+        const genCommand = postLabel.match(/(?:\w+:)?\s*(\w+)/);
 
         if(
-          genCommand && noXcommands
-            .find(cmd => cmd.toLowerCase() === genCommand[1].toLowerCase())
+          genCommand && (
+            ~noXcommands.indexOf(genCommand[1].toLowerCase())
+          )
         ) return;
         
-        const text = line.match(/^\s*(?:\w+\:\s+)?(\w+)\s+[^;]*\"(.*)\".*$/);
+        const text = line.match(/^\s*(?:\w+\::?\s+)?(\w+)\s+[^;]*\"(.*)\".*$/);
 
         if(
           text ||
-          (genCommand && !genCommand[1].indexOf('text'))
+          (genCommand && !genCommand[1].indexOf('text_'))
         ){
           // if(label !== prevLabel) console.log(label);
           prevLabel = label;        
@@ -119,9 +131,9 @@ const readPlayerStrings = async ()=>{
           const [l, command, str] = text;
           
           // if(routine) console.log(routine);
-          setBlock(file, label, [command, str], ln);
-        } else if(genCommand && !genCommand[1].indexOf('text')){
-          setBlock(file, label, [genCommand[1]], ln);
+          setBlock(file, label, [command, str], ln+1);
+        } else if(genCommand && !genCommand[1].indexOf('text_')){
+          setBlock(file, label, [genCommand[1]], ln+1);
         }
       });
     })
@@ -134,9 +146,11 @@ const readPlayerStrings = async ()=>{
     blocks, null, 2
   ));
 
+  console.log( blocks.length );
+  
 };
 
-const renderGameInHebrew = ()=>{
+const renderGameInHebrew = async ()=>{
 
   // (later, add support for gender selection at render)
 
@@ -144,15 +158,82 @@ const renderGameInHebrew = ()=>{
 
   // make the diff for rtl support (remove typewriter / use from github)
   
-  // read the translation files
+  // read the translation blocks
   // loop through each of them, using child-process sed to replace strings
 
+  const blocks = JSON.parse(
+    (await fs.readFile('./translation/blocks.json', { encoding: 'utf-8' }))
+  );
+
+  const transfers = JSON.parse(
+    (await fs.readFile('./translation/transfers.json', { encoding: 'utf-8' }))
+  );
+
+  await Promise.all(
+    blocks.map(async (block)=>{
+      transfers.forEach(async ({ src, to, file, label, ln })=>{
+        if(
+          block.file === file &&
+          block.label === label &&
+          block.cmds.reduce((all, cmd, i) => (
+            all && (cmd.cmd[1] === src[i])
+          ), true)
+        ){
+          console.log('found', file, label, src, to);
+
+          // replace src with to in file
+          // sed -i 's/original/new/g' file.txt
+
+          // for each cmd in block.cmds
+          // replace with to[i]
+          
+          const res = await Promise.all(
+            src.map(async (cmd, i)=>
+              (await (new Promise((s,j)=>
+                exec(`sed -i 's/"${src[i]}"/"${to[i]}"/g' ${file}`,
+                     (err, stdout, stderr) => {
+                       if (err) return j(err);
+                       else return s(stdout);
+                })
+              )))
+            )
+          );
+
+          console.log(res);
+        }
+      });
+    })
+  );
+  
   // child-process make
   // copy the gbc file to the translations directory
 
   // put all the files back how they were (git? untranslate? tmp copies?)
 };
 
+const debugAllCommands = async ()=>{
+  const blocks = JSON.parse(
+    (await fs.readFile('./translation/blocks.json', { encoding: 'utf-8' }))
+  );
+
+  return blocks.reduce((cmds, block)=>(
+    Array.from(new Set([...cmds, ...block.cmds.map(c=> c.cmd[0])]))
+  ), [])
+};
+
+const debugAllCommandLengths = async ()=>{
+  const blocks = JSON.parse(
+    (await fs.readFile('./translation/blocks.json', { encoding: 'utf-8' }))
+  );
+
+  return blocks.reduce((cmds, block)=>(
+    Array.from(new Set([...cmds, ...block.cmds.map(c=> c.cmd.length)]))
+  ), [])
+};
+
 module.exports = {
   readPlayerStrings,
+  renderGameInHebrew,
+  debugAllCommands,
+  debugAllCommandLengths,
 };

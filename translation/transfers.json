@@ -1,0 +1,78 @@
+[
+  {
+    "file": "../pokered/data/battle/stat_mod_names.asm",
+    "label": "StatModTextStrings",
+    "src": [
+      "ATTACK",
+      "DEFENSE",
+      "SPEED",
+      "SPECIAL",
+      "ACCURACY",
+      "EVADE"
+    ],
+    "to": [
+      "הפקתה",
+      "הנגה",
+      "תוריהמ",
+      "תודחוימ",
+      "תונקייד",
+      "תוקמחתה"
+    ]
+  },
+
+  {
+    "file": "../pokered/engine/pokemon/status_screen.asm",
+    "label": "StatsText",
+    "src": [
+      "ATTACK",
+      "DEFENSE",
+      "SPEED",
+      "SPECIAL@"
+    ],
+
+    "to": [
+      "הפקתה",
+      "הנגה",
+      "תוריהמ",
+      "תודחוימ@"
+    ]
+  },
+
+
+  {
+    "src": ["POKé@"],
+    "to": ["יקופ@"],
+    "file": "../pokered/home/text.asm",
+    "label": "PlacePOKeText"
+  },
+
+  {
+    "src": [
+      "PLAYER",
+      "BADGES    ",
+      "#DEX    ",
+      "TIME@"
+    ],
+    "to": [
+      "ןקחש",
+      "םיגת      ",
+      "עד#     ",
+      "ןמז@"
+    ],
+    "file": "../pokered/engine/menus/main_menu.asm",
+    "label": "SaveScreenInfoText"
+  },
+
+  {
+    "src": [
+      "Heal Your #MON!",
+      "#MON CENTER"
+    ],
+    "to": [
+      "םינומ# םיאפרמ",
+      "ןומ#ה זכרמ"
+    ],
+    "file": "../pokered/data/text/text_1.asm",
+    "label": "_PokeCenterSignText"
+  }
+]
