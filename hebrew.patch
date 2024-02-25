@@ -1,0 +1,63 @@
+diff --git a/constants/charmap.asm b/constants/charmap.asm
+index f0967978..19ffbcef 100644
+--- a/constants/charmap.asm
++++ b/constants/charmap.asm
+@@ -26,7 +26,7 @@
+ 	charmap "<ROCKET>",  $5e ; "ROCKET"
+ 	charmap "<DEXEND>",  $5f
+ 
+-; Actual characters (from gfx/font/font_extra.png)
++
+ 
+ 	charmap "<BOLD_A>",  $60 ; unused
+ 	charmap "<BOLD_B>",  $61 ; unused
+@@ -89,6 +89,34 @@
+ 
+ ; Actual characters (from gfx/font/font.png)
+ 
++
++	charmap "א",         $80
++	charmap "ב",         $81
++	charmap "ג",         $82
++	charmap "ד",         $83
++	charmap "ה",         $84
++	charmap "ו",         $85
++	charmap "ז",         $86
++	charmap "ח",         $87
++	charmap "ט",         $88
++	charmap "י",         $89
++	charmap "כ",         $8a
++	charmap "ל",         $8b
++	charmap "מ",         $8c
++	charmap "נ",         $8d
++	charmap "ס",         $8e
++	charmap "ע",         $8f
++	charmap "פ",         $90
++	charmap "צ",         $91
++	charmap "ק",         $92
++	charmap "ר",         $93
++	charmap "ש",         $94
++	charmap "ת",         $95
++	charmap "ך",         $96
++	charmap "ם",         $97
++	charmap "ן",         $98
++	charmap "ף",         $99
++        
+ 	charmap "A",         $80
+ 	charmap "B",         $81
+ 	charmap "C",         $82
+diff --git a/gfx/font/font.png b/gfx/font/font.png
+index 34e86b4a..795943da 100644
+Binary files a/gfx/font/font.png and b/gfx/font/font.png differ
+diff --git a/home/print_text.asm b/home/print_text.asm
+index 962ae519..e508f645 100644
+--- a/home/print_text.asm
++++ b/home/print_text.asm
+@@ -2,6 +2,7 @@
+ ; screen unless the player presses the A/B button or the delay is turned off
+ ; through the [wd730] or [wLetterPrintingDelayFlags] flags.
+ PrintLetterDelay::
++        ret
+ 	ld a, [wd730]
+ 	bit 6, a
+ 	ret nz

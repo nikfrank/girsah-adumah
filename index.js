@@ -33,6 +33,32 @@ const fn = 1446; //../pokered/home/text.asm
 //const fn = 1800; // poke tower 6f
 
 const readPlayerStrings = async ()=>{
+
+  // assert git status clean
+  const gitStatus = (await (new Promise((s,j)=>
+    exec('cd ../pokered && git status', (err, stdout, stderr) => {
+      if (err) return j(err);
+      else return s(stdout);
+    })
+  ))).split('\n');
+
+  if( gitStatus[1] !== 'nothing to commit, working tree clean' ) return;
+
+  // save prev branch name
+
+  const prevBranch = gitStatus[0].split(' ')[2];
+  
+  // checkout master
+
+  (await (new Promise((s,j)=>
+    exec('cd ../pokered && git checkout master', (err, stdout, stderr) => {
+      if (err) return j(err);
+      else return s(stdout);
+    })
+  )));
+
+  // (at the end, checkout the prev branch)
+  
   // read all files
   //  -- filter this list by files with player facing text
 
@@ -91,7 +117,7 @@ const readPlayerStrings = async ()=>{
       content.split('\n').forEach(async (line, ln)=>{
         postLabel = line;
         
-        const nextLabel = line.match(/^\w+\:/);
+        const nextLabel = line.match(/^\.?\w+\:/);
         if(nextLabel){
           label = nextLabel[0].slice(0,-1);
           labelLOC = ln;
@@ -143,10 +169,19 @@ const readPlayerStrings = async ()=>{
   // in the translations directory
   
   await fs.writeFile('./translation/blocks.json', JSON.stringify(
-    blocks, null, 2
+    blocks
+      .filter(block => block.cmds.find(({cmd})=> cmd[1])),
+    null, 2
   ));
 
   console.log( blocks.length );
+
+  (await (new Promise((s,j)=>
+    exec('cd ../pokered && git checkout '+prevBranch, (err, stdout, stderr) => {
+      if (err) return j(err);
+      else return s(stdout);
+    })
+  )));
   
 };
 

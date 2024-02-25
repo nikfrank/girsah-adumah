@@ -1,0 +1,28 @@
+.App {
+  height: 100vh;
+}
+
+.top-nav {
+  height: 100px;
+  background: #2223;
+  text-align: center;
+}
+
+.main {
+  display: flex;
+  height: calc( 100vh - 100px );
+}
+
+
+ul {
+  list-style: none;
+  padding: 0;
+
+  max-height: 100%;
+  overflow-y: auto;
+}
+
+li.active {
+  font-weight: bold;
+}
+
