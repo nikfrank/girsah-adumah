@@ -1,7 +1,14 @@
 import './App.css';
 import { useState, useMemo, useEffect } from 'react';
 
-import { fetchFiles, fetchBlocks } from './network';
+import {
+  fetchFiles,
+  fetchBlocks,
+  fetchTransfers,
+  putTransfer,
+} from './network';
+
+import { LeftyTextInput } from './LeftyTextInput';
 
 function App() {
   const [files, setFiles] = useState([]);
@@ -15,12 +22,42 @@ function App() {
   const currentBlocks = useMemo(()=> (
     blocks.filter(block=> block.file === currentFile)
   ), [currentFile]);
+
+  const [currentTransfer, setCurrentTransfer] = useState(null);
+
+  useEffect(()=> {
+    void (
+      setCurrentTransfer(
+        !currentBlock ? null :
+        transfers.find(({ file, label })=> (
+          file === currentBlock.file
+          &&
+          label === currentBlock.label
+        )) ?? ({
+          file: currentBlock.file,
+          label: currentBlock.label,
+          src: currentBlock.cmds.map(cmd=> (cmd.cmd[1] || '')),
+          to: currentBlock.cmds.map(cmd=> ''),
+        })
+      )
+    )
+  }, [currentBlock]);
   
   const loadFiles = useMemo(()=> ()=> {
     fetchFiles().then(setFiles);
   }, []);
 
+  const loadTransfers = useMemo(()=> ()=> {
+    fetchTransfers().then(setTransfers);
+  }, []);
+
+  const saveTransfer = useMemo(()=> ()=> {
+    putTransfer(currentTransfer)
+      .then(res => console.log(res));
+  }, [currentTransfer]);
+
   useEffect(()=> void loadFiles(), []);
+  useEffect(()=> void loadTransfers(), []);
 
   const selectFile = useMemo(()=> (file)=> {
     setCurrentBlock(null);
@@ -86,6 +123,35 @@ function App() {
                   {cmd.cmd[1]}
                 </li>
               ))
+            )
+          }
+        </ul>
+
+        <ul>
+          {
+            !currentTransfer ? null : (
+              currentTransfer.to.map((text, i)=> (
+                <li key={i}>
+                  <LeftyTextInput
+                    value={text}
+                    onChange={nu=> setCurrentTransfer(ct => ({
+                      ...ct,
+                      to: [
+                        ...ct.to.slice(0,i),
+                        nu,
+                        ...ct.to.slice(i+1),
+                      ],
+                    }))}
+                  />
+                </li>
+              ))
+            )
+          }
+          {
+            !currentTransfer? null : (
+              <li key='save'>
+                <button onClick={saveTransfer}>Save</button>
+              </li>
             )
           }
         </ul>

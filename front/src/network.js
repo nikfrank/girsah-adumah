@@ -11,13 +11,20 @@ export const fetchBlocks = ({ file })=>
     .then(res=> res.json());
 
 
-export const fetchTransfers = ({ file, label, src })=>
+export const fetchTransfers = ()=>
   fetch('/transfers')
     .then(res=> res.json());
 
-export const saveTransfer = ({
+export const putTransfer = ({
   file, label,
   src, to,
-})=>{
-  
-};
+})=>
+    fetch('/transfers', {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        file, label,
+        src, to,
+      }),
+    })
+      .then(res=> res.json())

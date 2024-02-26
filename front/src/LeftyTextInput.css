@@ -1,0 +1,8 @@
+.lefty-text-input {
+  display: flex;
+  flex-direction: row-reverse;
+}
+
+.lefty-text-input input {
+  width: 1rem;
+}

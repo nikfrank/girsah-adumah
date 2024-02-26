@@ -266,9 +266,20 @@ const debugAllCommandLengths = async ()=>{
   ), [])
 };
 
+const debugLongestText = async ()=>{
+  const blocks = JSON.parse(
+    (await fs.readFile('./translation/blocks.json', { encoding: 'utf-8' }))
+  );
+
+  return blocks.reduce((longest, block)=>(
+    Math.max(longest, Math.max(...block.cmds.map(cmd=> (cmd.cmd[1]||'').length)) )
+  ), 0)
+};
+
 module.exports = {
   readPlayerStrings,
   renderGameInHebrew,
   debugAllCommands,
   debugAllCommandLengths,
+  debugLongestText,
 };

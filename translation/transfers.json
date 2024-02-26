@@ -19,7 +19,6 @@
       "תוקמחתה"
     ]
   },
-
   {
     "file": "../pokered/engine/pokemon/status_screen.asm",
     "label": "StatsText",
@@ -29,7 +28,6 @@
       "SPEED",
       "SPECIAL@"
     ],
-
     "to": [
       "הפקתה",
       "הנגה",
@@ -37,15 +35,16 @@
       "תודחוימ@"
     ]
   },
-
-
   {
-    "src": ["POKé@"],
-    "to": ["יקופ@"],
+    "src": [
+      "POKé@"
+    ],
+    "to": [
+      "יקופ@"
+    ],
     "file": "../pokered/home/text.asm",
     "label": "PlacePOKeText"
   },
-
   {
     "src": [
       "PLAYER",
@@ -62,7 +61,6 @@
     "file": "../pokered/engine/menus/main_menu.asm",
     "label": "SaveScreenInfoText"
   },
-
   {
     "src": [
       "Heal Your #MON!",
@@ -74,5 +72,15 @@
     ],
     "file": "../pokered/data/text/text_1.asm",
     "label": "_PokeCenterSignText"
+  },
+  {
+    "file": "../pokered/data/events/prizes.asm",
+    "label": "NoThanksText",
+    "src": [
+      "NO THANKS@"
+    ],
+    "to": [
+      "@הדות אל"
+    ]
   }
 ]
