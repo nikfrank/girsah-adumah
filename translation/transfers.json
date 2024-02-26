@@ -82,5 +82,99 @@
     "to": [
       "@הדות אל"
     ]
+  },
+  {
+    "file": "../pokered/engine/menus/draw_start_menu.asm",
+    "label": "StartMenuPokedexText",
+    "src": [
+      "POKéDEX@"
+    ],
+    "to": [
+      "עד#"
+    ]
+  },
+  {
+    "file": "../pokered/engine/menus/draw_start_menu.asm",
+    "label": "StartMenuPokemonText",
+    "src": [
+      "POKéMON@"
+    ],
+    "to": [
+      "ןומ#"
+    ]
+  },
+  {
+    "file": "../pokered/engine/menus/draw_start_menu.asm",
+    "label": "StartMenuItemText",
+    "src": [
+      "ITEM@"
+    ],
+    "to": [
+      "@םיטירפ"
+    ]
+  },
+  {
+    "file": "../pokered/engine/menus/draw_start_menu.asm",
+    "label": "StartMenuSaveText",
+    "src": [
+      "SAVE@"
+    ],
+    "to": [
+      "@הרימש"
+    ]
+  },
+  {
+    "file": "../pokered/engine/menus/draw_start_menu.asm",
+    "label": "StartMenuResetText",
+    "src": [
+      "RESET@"
+    ],
+    "to": [
+      "@לוחתיא"
+    ]
+  },
+  {
+    "file": "../pokered/engine/menus/draw_start_menu.asm",
+    "label": "StartMenuExitText",
+    "src": [
+      "EXIT@"
+    ],
+    "to": [
+      "@האיצי"
+    ]
+  },
+  {
+    "file": "../pokered/engine/menus/draw_start_menu.asm",
+    "label": "StartMenuOptionText",
+    "src": [
+      "OPTION@"
+    ],
+    "to": [
+      "@םילכ"
+    ]
+  },
+  {
+    "file": "../pokered/engine/menus/main_menu.asm",
+    "label": "ContinueText",
+    "src": [
+      "CONTINUE",
+      ""
+    ],
+    "to": [
+      "קחשמ ךשמה",
+      ""
+    ]
+  },
+  {
+    "file": "../pokered/engine/menus/main_menu.asm",
+    "label": "NewGameText",
+    "src": [
+      "NEW GAME",
+      "OPTION@"
+    ],
+    "to": [
+      "שדח קחשמ",
+      "@תורדגה"
+    ]
   }
 ]
