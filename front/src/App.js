@@ -53,7 +53,9 @@ function App() {
 
   const saveTransfer = useMemo(()=> ()=> {
     putTransfer(currentTransfer)
-      .then(res => console.log(res));
+      .then(res => {
+        setTransfers(old => [...old, {...currentTransfer}]);
+      });
   }, [currentTransfer]);
 
   useEffect(()=> void loadFiles(), []);
@@ -119,7 +121,7 @@ function App() {
           {
             !currentBlock ? null : (
               currentBlock.cmds.map((cmd, i)=> (
-                <li key={i}>
+                <li key={i} style={{ marginTop: 3 }}>
                   {cmd.cmd[1]}
                 </li>
               ))

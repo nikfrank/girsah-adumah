@@ -176,5 +176,29 @@
       "שדח קחשמ",
       "תורדגה@"
     ]
+  },
+  {
+    "file": "../pokered/data/yes_no_menu_strings.asm",
+    "label": ".NoYesMenu",
+    "src": [
+      "NO",
+      "YES@"
+    ],
+    "to": [
+      "אל",
+      "ןכ@"
+    ]
+  },
+  {
+    "file": "../pokered/data/yes_no_menu_strings.asm",
+    "label": ".YesNoMenu",
+    "src": [
+      "YES",
+      "NO@"
+    ],
+    "to": [
+      "ןכ",
+      "אל@"
+    ]
   }
 ]
