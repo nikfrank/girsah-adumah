@@ -1,9 +1,27 @@
 # pokemon red verion hebrew translation
 
-- links to pret/pokered
 - links to previous translation attempts
 
-preamble about project architecture
+## project architecture
+
+this project serves as a translator shim for https://github.com/pret/pokered the disassembly project
+
+it assumes that `../pokered/` is available in a next door directory
+
+when you run `node write.js`, it will run a child process that
+
+ - splits & checks out a build branch in ../pokered/
+ - uses sed to replace user facing strings in the .asm files
+ - calls `make` to generate a build `.gbc` file
+ - copies the build output to the build directory
+
+### futureproofing
+
+the idea of using a shim is that the core project will evolve and improve, and people may wish to render translated copies of future versions
+
+also, there's no reason it wouldn't be possible to translate romhack alternate versions using this shim
+
+
 
 
 ## getting started
@@ -69,3 +87,4 @@ this game doesn't have any support for RTL, so it will render everything LTR
 the front end exists largely as a workaround for this
 
 when you open the JSON file, your text editor will likely render the Hebrew RTL, and therefore it will read backwards. such is life.
+
