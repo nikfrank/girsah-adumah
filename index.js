@@ -189,9 +189,40 @@ const renderGameInHebrew = async ()=>{
 
   // (later, add support for gender selection at render)
 
-  // make the diffs for font, other png files
+  // diffs for font, other png files in ./hebrew-support.patch
 
-  // make the diff for rtl support (remove typewriter / use from github)
+  // assert git status clean
+  const gitStatus = (await (new Promise((s,j)=>
+    exec('cd ../pokered && git status', (err, stdout, stderr) => {
+      if (err) return j(err);
+      else return s(stdout);
+    })
+  ))).split('\n');
+
+  if( gitStatus[0].split(' ')[2] !== 'master' )
+    return console.log('not on branch master - fatal. take this check out svp');
+  
+  if( gitStatus[1] !== 'nothing to commit, working tree clean' )
+    return console.log('working tree not clean - fatal');
+
+  const buildTime = (new Date)-0;
+  
+  const gitApply = (await (new Promise((s,j)=>
+    exec(
+      [
+        'cd ../pokered',
+        'git checkout -b build/'+buildTime,
+        'git apply --reject --whitespace=fix ../hebrew-pokemon/hebrew-support.patch',
+      ].join(' && '),
+      (err, stdout, stderr) => {
+        if (err) return j(err);
+        else return s(stdout);
+      }
+    )
+  ))).split('\n');
+
+  
+  // (( make the diff for rtl support (remove typewriter / use from github) ))
   
   // read the translation blocks
   // loop through each of them, using child-process sed to replace strings
@@ -214,8 +245,6 @@ const renderGameInHebrew = async ()=>{
             all && (cmd.cmd[1] === src[i])
           ), true)
         ){
-          console.log('found', file, label, src, to);
-
           // replace src with to in file
           // sed -i 's/original/new/g' file.txt
 
@@ -233,17 +262,55 @@ const renderGameInHebrew = async ()=>{
               )))
             )
           );
-
-          console.log(res);
         }
       });
     })
   );
   
   // child-process make
+
+  console.log('completed translation, running make');
+  
+  const makeCmd = (await (new Promise((s,j)=>
+    exec(
+      [
+        'cd ../pokered',
+        'make',
+      ].join(' && '),
+      (err, stdout, stderr) => {
+        if (err) return j(err);
+        else return s(stdout);
+      }
+    )
+  ))).split('\n');
+  
   // copy the gbc file to the translations directory
 
-  // put all the files back how they were (git? untranslate? tmp copies?)
+  const cpCmd = (await (new Promise((s,j)=>
+    exec(
+      'cp ../pokered/pokered.gbc ./build/pokered-'+buildTime+'.gbc',
+      (err, stdout, stderr) => {
+        if (err) return j(err);
+        else return s(stdout);
+      }
+    )
+  ))).split('\n');
+  
+  // put all the files back how they were using git
+
+  const gitMaster = (await (new Promise((s,j)=>
+    exec(
+      [
+        'cd ../pokered',
+        `git commit -am "built at epoch time: ${buildTime}"`,
+        'git checkout master',
+      ].join(' && '),
+      (err, stdout, stderr) => {
+        if (err) return j(err);
+        else return s(stdout);
+      }
+    )
+  ))).split('\n');
 };
 
 const debugAllCommands = async ()=>{

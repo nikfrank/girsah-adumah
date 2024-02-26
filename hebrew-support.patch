@@ -1,0 +1,115 @@
+diff --git a/constants/charmap.asm b/constants/charmap.asm
+index f0967978..19ffbcef 100644
+--- a/constants/charmap.asm
++++ b/constants/charmap.asm
+@@ -26,7 +26,7 @@
+ 	charmap "<ROCKET>",  $5e ; "ROCKET"
+ 	charmap "<DEXEND>",  $5f
+ 
+-; Actual characters (from gfx/font/font_extra.png)
++
+ 
+ 	charmap "<BOLD_A>",  $60 ; unused
+ 	charmap "<BOLD_B>",  $61 ; unused
+@@ -89,6 +89,34 @@
+ 
+ ; Actual characters (from gfx/font/font.png)
+ 
++
++	charmap "א",         $80
++	charmap "ב",         $81
++	charmap "ג",         $82
++	charmap "ד",         $83
++	charmap "ה",         $84
++	charmap "ו",         $85
++	charmap "ז",         $86
++	charmap "ח",         $87
++	charmap "ט",         $88
++	charmap "י",         $89
++	charmap "כ",         $8a
++	charmap "ל",         $8b
++	charmap "מ",         $8c
++	charmap "נ",         $8d
++	charmap "ס",         $8e
++	charmap "ע",         $8f
++	charmap "פ",         $90
++	charmap "צ",         $91
++	charmap "ק",         $92
++	charmap "ר",         $93
++	charmap "ש",         $94
++	charmap "ת",         $95
++	charmap "ך",         $96
++	charmap "ם",         $97
++	charmap "ן",         $98
++	charmap "ף",         $99
++        
+ 	charmap "A",         $80
+ 	charmap "B",         $81
+ 	charmap "C",         $82
+diff --git a/gfx/font/font.png b/gfx/font/font.png
+index 34e86b4a683cb214b92f71e462ed372b19bfb984..795943da084eea566ab70778fa50b7db61df4030 100644
+GIT binary patch
+delta 1828
+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
+SiNp{90000<MNUMnLSTZo7<Ik?
+
+delta 612
+zcmV-q0-OD(4)Fw#7=Hl(0002`twPcO00KBkL_t(I%jJ@>i_}0A#$QOWe}IkMmeyi%
+z3~~hj0;|L7kShg))e>ZR3}K2bx3IKGX<>1Q#c~Y85C%z^?o!ARL}ZZTc*r8-vc%_P
+zZx2uX6P#km{PMl;`(OrW;wDMrP?d9u*rd?S&0I=@6bdO0HGf7RQA!!X3wd;m2s)LR
+zrY8x7$1=|`1%;ymk%|L}Gn9b1_bB4*OC3QPQ)En8ViHp%@Lvm>bP@lcz+{s#|CoZt
+zIU(j+Z$t0>wvVQgP#<+&Ai4&r8Uc-qIf7X+5O$)YK7vu9=SZd#n(W@=11hQs1;rE}
+zV#*&Sq6@I)fq&O=XG^<cJ8%_GVGkPX21j*NoY5WU6l|5LO=%Vs-cWvF3^-#=Nk&ts
+zu7NhjSgQ42p`cc-u4#ziECOfuJrr}h`>?l)wTA~;mcezuab;#@R~G7bPHBw~b?LA;
+zd2|fs)RNYDr?;jKeYgNqxe<`|r3s%RsO><yJL+6-O@H_qE@7~09W`g$vaUnD2{7zK
+z7dQ9v&qe*`pqk#}EMtH3WT1Nbgsm;zc&e(Tfqq)>^JjN=;B=Y11v@MF^8CKzNzbc=
+z%7JHj>Ce6AFj;EVG{EaGOy_aFEBe)fH1PMY5qMv<)SoVS1Xs~6j@W8aRouYNzPVNG
+zBgc2D8(pu;&#6k30;hS)`h6qTF3W@v(03fT5&m2ADoxi)z>=6M5`M9Hun}IAQPK95
+ydhMqo5uz0vSnAgH)Rc)@E7eBRo>^M@9s3J!_%2T_a^GzL0000<MNUMnLSTab4JFk8
+
+diff --git a/home/print_text.asm b/home/print_text.asm
+index 962ae519..e508f645 100644
+--- a/home/print_text.asm
++++ b/home/print_text.asm
+@@ -2,6 +2,7 @@
+ ; screen unless the player presses the A/B button or the delay is turned off
+ ; through the [wd730] or [wLetterPrintingDelayFlags] flags.
+ PrintLetterDelay::
++        ret
+ 	ld a, [wd730]
+ 	bit 6, a
+ 	ret nz
