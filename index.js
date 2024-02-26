@@ -237,34 +237,35 @@ const renderGameInHebrew = async ()=>{
 
   await Promise.all(
     blocks.map(async (block)=>{
-      transfers.forEach(async ({ src, to, file, label, ln })=>{
-        if(
-          block.file === file &&
-          block.label === label &&
-          block.cmds.reduce((all, cmd, i) => (
-            all && (cmd.cmd[1] === src[i])
-          ), true)
-        ){
-          // replace src with to in file
-          // sed -i 's/original/new/g' file.txt
+      await Promise.all(
+        transfers.map(async ({ src, to, file, label, ln })=>{
+          if(
+            block.file === file &&
+            block.label === label &&
+            block.cmds.reduce((all, cmd, i) => (
+              all && (cmd.cmd[1] === src[i])
+            ), true)
+          ){
+            // replace src with to in file
+            // sed -i 's/original/new/g' file.txt
 
-          // for each cmd in block.cmds
-          // replace with to[i]
-          
-          const res = await Promise.all(
-            src.map(async (cmd, i)=>
-              (await (new Promise((s,j)=>
-                console.log(src[i], to[i], file)||
-                exec(`sed -i 's/"${src[i]}"/"${to[i]}"/g' ${file}`,
-                     (err, stdout, stderr) => {
-                       if (err) return j(err);
-                       else return s(stdout);
-                })
-              )))
-            )
-          );
-        }
-      });
+            // for each cmd in block.cmds
+            // replace with to[i]
+            
+            const res = await Promise.all(
+              src.map(async (cmd, i)=>
+                (await (new Promise((s,j)=>
+                  exec(`sed -i 's/"${src[i]}"/"${to[i]}"/g' ${file}`,
+                       (err, stdout, stderr) => {
+                         if (err) return j(err);
+                         else return console.log(src[i], to[i], file)|| s(stdout);
+                  })
+                )))
+              )
+            );
+          }
+        })
+      );
     })
   );
   
