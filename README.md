@@ -49,7 +49,7 @@ from there you can write translations and save them to your local copy
 
 ## contributing
 
-after translating text through the front end, translations will be saved in the ``./translation/transfers.json` file
+after translating text through the front end, translations will be saved in the `./translation/transfers.json` file
 
 feel free to fork this repo, push your translations, and make a PR to contribute to the overall translation effort
 
