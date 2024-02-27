@@ -43,7 +43,7 @@ in another shell
 to run the (express) server app
 
 
-the front end will be available at [localhost:3000](https://localhost:3000)
+the front end will be available at [localhost:3000](http://localhost:3000)
 
 from there you can write translations and save them to your local copy
 
