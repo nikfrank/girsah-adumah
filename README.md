@@ -18,17 +18,52 @@ you can then copy the `.gbc` file to `../pokered/pokered.gbc` and `vba` will use
 
 ## getting started
 
-notes on installing pokered, gbc software
+(( notes on installing pokered, gbc software ))
 
-notes on running the front end
+## running the front end
 
-notes on build output
+in one shell
 
-notes on making a pull request with translations
+`cd front`
+
+`npm i`
+
+`npm start`
+
+to run the (create react app) front end
+
+in another shell
+
+`cd server`
+
+`npm i`
+
+`node .`
+
+to run the (express) server app
+
+
+the front end will be available at [localhost:3000](https://localhost:3000)
+
+from there you can write translations and save them to your local copy
+
+## contributing
+
+after translating text through the front end, translations will be saved in the ``./translation/transfers.json` file
+
+feel free to fork this repo, push your translations, and make a PR to contribute to the overall translation effort
+
+similarly, improvements to the front end / translation shimmer / whatever are welcome as PRs
 
 
 
+## build output
 
+builds are timestamped for uniquification purposes, and share the timestamp value (in epoch millis) with the build branch generated in the `../pokered/` project
+
+build output is `.gitignore`d
+
+---
 
 ## quirks
 
