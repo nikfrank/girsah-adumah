@@ -1,27 +1,19 @@
 # pokemon red verion hebrew translation
 
-- links to previous translation attempts
-
-## project architecture
-
 this project serves as a translator shim for https://github.com/pret/pokered the disassembly project
 
 it assumes that `../pokered/` is available in a next door directory
 
-when you run `node write.js`, it will run a child process that
+when you run `node write.js`, it will run child-processes which
 
- - splits & checks out a build branch in ../pokered/
- - uses sed to replace user facing strings in the .asm files
- - calls `make` to generate a build `.gbc` file
- - copies the build output to the build directory
+ - split & check out a build branch in `../pokered/`
+ - use `sed` to replace user facing strings in the `.asm` files
+ - call `make` to generate a build output `.gbc` file
+ - copy the build output to the build directory (in this project)
+ - commit the translated `.asm` files to the build branch
+ - check out the master branch `../pokered/`, returning to original state
 
-### futureproofing
-
-the idea of using a shim is that the core project will evolve and improve, and people may wish to render translated copies of future versions
-
-also, there's no reason it wouldn't be possible to translate romhack alternate versions using this shim
-
-
+you can then copy the `.gbc` file to `../pokered/pokered.gbc` and `vba` will use your existing save states in the newly translated copy!
 
 
 ## getting started
@@ -33,6 +25,9 @@ notes on running the front end
 notes on build output
 
 notes on making a pull request with translations
+
+
+
 
 
 ## quirks
@@ -88,3 +83,22 @@ the front end exists largely as a workaround for this
 
 when you open the JSON file, your text editor will likely render the Hebrew RTL, and therefore it will read backwards. such is life.
 
+
+
+## futureproofing
+
+the idea of using a shim is that the core project will evolve and improve, and people may wish to render translated copies of future versions
+
+also, there's no reason it wouldn't be possible to translate romhack alternate versions using this shim - if there are any added texts, use `node read.js` to read strings out of the assembly source to become available in the front end.
+
+or to fork this project and use a similar technique to translate other games
+
+### previous attempts recognition
+
+https://github.com/Nog-Frog/pokered-girl/ has many translated strings but has not kept up with the core project from when it was forked... it also has translated images (and a girl as the main character), all of which I intend to make available in this project (imagine `node write.js --girl` to build in nekava)
+
+https://github.com/LIJI32/pokeadom has the typewriter effect for RTL text, which I would like to merge into this project as well.
+
+to avoid the effect running LTR on RTL text, the `./hebrew-support.patch` applied during build shortcircuits the function which plays the effect so all text appears simultaneously
+
+my forebearers have shown wisdom and grace in leaving me space to prove myself.
