@@ -11,7 +11,7 @@ index f0967978..19ffbcef 100644
  
  	charmap "<BOLD_A>",  $60 ; unused
  	charmap "<BOLD_B>",  $61 ; unused
-@@ -89,6 +89,34 @@
+@@ -89,6 +89,35 @@
  
  ; Actual characters (from gfx/font/font.png)
  
@@ -42,6 +42,7 @@ index f0967978..19ffbcef 100644
 +	charmap "ם",         $97
 +	charmap "ן",         $98
 +	charmap "ף",         $99
++	charmap "ץ",         $9d
 +        
  	charmap "A",         $80
  	charmap "B",         $81

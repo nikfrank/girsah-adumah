@@ -251,11 +251,11 @@ const renderGameInHebrew = async ()=>{
 
             // for each cmd in block.cmds
             // replace with to[i]
-            
+
             const res = await Promise.all(
               src.map(async (cmd, i)=>
                 (await (new Promise((s,j)=>
-                  exec(`sed -i 's/"${src[i]}"/"${to[i]}"/g' ${file}`,
+                  exec(`sed -i 's/"${src[i].replace(/'/g, '\\x27')}"/"${to[i].replace(/'/g, '\\x27')}"/g' ${file}`,
                        (err, stdout, stderr) => {
                          if (err) return j(err);
                          else return console.log(src[i], to[i], file)|| s(stdout);
