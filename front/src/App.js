@@ -121,34 +121,31 @@ function App() {
           {
             !currentBlock ? null : (
               currentBlock.cmds.map((cmd, i)=> (
-                <li key={i} style={{ marginTop: 3 }}>
-                  {cmd.cmd[1]}
-                </li>
-              ))
-            )
-          }
-        </ul>
-
-        <ul>
-          {
-            !currentTransfer ? null : (
-              currentTransfer.to.map((text, i)=> (
                 <li key={i}>
-                  <LeftyTextInput
-                    value={text}
-                    onChange={nu=> setCurrentTransfer(ct => ({
-                      ...ct,
-                      to: [
-                        ...ct.to.slice(0,i),
-                        nu,
-                        ...ct.to.slice(i+1),
-                      ],
-                    }))}
-                  />
+                  <span>
+                    {cmd.cmd[1]}
+                  </span>
+
+                  {
+                    !currentTransfer ? <div/> : (
+                      <LeftyTextInput
+                        value={currentTransfer.to[i]}
+                        onChange={nu=> setCurrentTransfer(ct => ({
+                          ...ct,
+                          to: [
+                            ...ct.to.slice(0,i),
+                            nu,
+                            ...ct.to.slice(i+1),
+                          ],
+                        }))}
+                      />
+                    )}
+
                 </li>
               ))
             )
           }
+          <hr/>
           {
             !currentTransfer? null : (
               <li key='save'>
@@ -156,7 +153,9 @@ function App() {
               </li>
             )
           }
+
         </ul>
+
       </div>
     </div>
   );

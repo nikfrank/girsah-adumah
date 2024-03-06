@@ -4,7 +4,7 @@ import './LeftyTextInput.css';
 const tenArray = Array(21).fill(null);
 
 export const LeftyTextInput = ({
-  value,
+  value='',
   onChange,
 })=>{
 

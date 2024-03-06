@@ -212,7 +212,7 @@ const renderGameInHebrew = async ()=>{
       [
         'cd ../pokered',
         'git checkout -b build/'+buildTime,
-        'git apply --reject --whitespace=fix ../hebrew-pokemon/hebrew-support.patch',
+        'git apply --reject --whitespace=fix ../girsah-adumah/hebrew-support.patch',
       ].join(' && '),
       (err, stdout, stderr) => {
         if (err) return j(err);
