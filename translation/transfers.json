@@ -193,7 +193,7 @@
       "BELLSPROUT",
       "WEEPINBELL",
       "VICTREEBEL"
-    ],    
+    ],
     "to": [
       "אישנרק@@@@",
       "לבסיכ@@@@@",
@@ -386,7 +386,7 @@
       "ןומעמד@@@@",
       "ןומעליהת@@"
     ]
-  },  
+  },
   {
     "file": "../pokered/data/battle/stat_mod_names.asm",
     "label": "StatModTextStrings",
@@ -587,6 +587,18 @@
     "to": [
       "ןכ",
       "אל@"
+    ]
+  },
+  {
+    "file": "../pokered/data/text_boxes.asm",
+    "label": "BattleMenuText",
+    "src": [
+      "FIGHT <PK><MN>",
+      "ITEM  RUN@"
+    ],
+    "to": [
+      "הפקתמ ןומ",
+      "טירפ  ץר@"
     ]
   }
 ]

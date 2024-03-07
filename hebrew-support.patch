@@ -42,7 +42,7 @@ index f0967978..19ffbcef 100644
 +	charmap "ם",         $97
 +	charmap "ן",         $98
 +	charmap "ף",         $99
-+	charmap "ץ",         $9d
++	charmap "ץ",         $9c
 +        
  	charmap "A",         $80
  	charmap "B",         $81
