@@ -212,7 +212,7 @@ const renderGameInHebrew = async ()=>{
       [
         'cd ../pokered',
         'git checkout -b build/'+buildTime,
-        'git apply --reject --whitespace=fix ../girsah-adumah/hebrew-support.patch',
+        'git apply --reject --whitespace=fix ../girsah-adumah/hebrew-support2.patch',
       ].join(' && '),
       (err, stdout, stderr) => {
         if (err) return j(err);
@@ -235,39 +235,42 @@ const renderGameInHebrew = async ()=>{
     (await fs.readFile('./translation/transfers.json', { encoding: 'utf-8' }))
   );
 
-  await Promise.all(
-    blocks.map(async (block)=>{
-      await Promise.all(
-        transfers.map(async ({ src, to, file, label, ln })=>{
-          if(
-            block.file === file &&
-            block.label === label &&
-            block.cmds.reduce((all, cmd, i) => (
-              all && (cmd.cmd[1] === src[i])
-            ), true)
-          ){
-            // replace src with to in file
-            // sed -i 's/original/new/g' file.txt
+  const allSeds = blocks.map((block)=>
+    transfers.map(({ src, to, file, label, ln })=>{
+      if(
+        block.file === file &&
+        block.label === label &&
+        block.cmds.reduce((all, cmd, i) => (
+          all && (cmd.cmd[1] === src[i])
+        ), true) &&
+        src.length
+      ){
+        // replace src with to in file
+        // sed -i 's/original/new/g' file.txt
 
-            // for each cmd in block.cmds
-            // replace with to[i]
+        // for each cmd in block.cmds
+        // replace with to[i]
 
-            const res = await Promise.all(
-              src.map(async (cmd, i)=>
-                (await (new Promise((s,j)=>
-                  exec(`sed -i 's/"${src[i].replace(/'/g, '\\x27')}"/"${to[i].replace(/'/g, '\\x27')}"/g' ${file}`,
-                       (err, stdout, stderr) => {
-                         if (err) return j(err);
-                         else return console.log(src[i], to[i], file)|| s(stdout);
-                  })
-                )))
-              )
-            );
-          }
-        })
-      );
-    })
-  );
+        const seds = src.map(
+          (cmd, i)=> `sed -i 's/"${src[i].replace(/'/g, '\\x27')}"/"${to[i].replace(/'/g, '\\x27')}"/g' ${file}`
+        );
+        return seds;
+      };
+    }).filter(i=>i).flat()
+  ).flat();
+
+  let chain = Promise.resolve();
+  for(let i=0; i < allSeds.length / 128; i++){
+    chain = chain.then(()=> new Promise((s,j)=>
+      setTimeout(()=>
+        exec(allSeds.slice(i*128, (i+1)*128).join(' && '), (err, stdout, stderr) => {
+          if (err) return console.log('ERR', err)||j(err);
+          else return s(stdout);
+        }), 200)
+    ));
+  }
+
+  await chain;
   
   // child-process make
 
