@@ -202,7 +202,7 @@ const renderGameInHebrew = async ()=>{
   if( gitStatus[0].split(' ')[2] !== 'master' )
     return console.log('not on branch master - fatal. take this check out svp');
   
-  if( gitStatus[1] !== 'nothing to commit, working tree clean' )
+  if( !gitStatus.find(t=> t=== 'nothing to commit, working tree clean' ))
     return console.log('working tree not clean - fatal');
 
   const buildTime = (new Date)-0;
