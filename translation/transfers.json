@@ -600,5 +600,17 @@
       "הפקתמ ןומ",
       "טירפ  ץר@"
     ]
+  },
+  {
+    "file": "../pokered/data/credits/credits_text.asm",
+    "label": "CredVersion",
+    "src": [
+      "RED VERSION STAFF@",
+      "BLUE VERSION STAFF@"
+    ],
+    "to": [
+      "המודא הסריג תווצ@",
+      "הלוחכ הסריג תווצ@"
+    ]
   }
 ]

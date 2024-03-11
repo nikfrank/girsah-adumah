@@ -34,7 +34,7 @@ ul {
 ul.files-list {
   font-size: 0.9375rem;
 
-  max-height: 80%;
+  border-bottom: 2px dashed black;
 }
 
 .left-menu {
@@ -43,10 +43,10 @@ ul.files-list {
 }
 
 .left-menu .labels-list {
-  min-height: 20%;
+  min-height: 30%;
 }
 
 li.active {
-  font-weight: bold;
+  text-decoration: underline;
 }
 

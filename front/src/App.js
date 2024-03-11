@@ -6,11 +6,14 @@ import {
   fetchBlocks,
   fetchTransfers,
   putTransfer,
+  fetchProgressFraction,
 } from './network';
 
 import { LeftyTextInput } from './LeftyTextInput';
 
 function App() {
+  const [progressFraction, setProgressFraction] = useState(0);
+  const [isSaving, setIsSaving] = useState(false);
   const [files, setFiles] = useState([]);
   const [blocks, setBlocks] = useState([]);
   const [transfers, setTransfers] = useState([]);
@@ -25,6 +28,10 @@ function App() {
 
   const [currentTransfer, setCurrentTransfer] = useState(null);
 
+  useEffect(()=> {
+    fetchProgressFraction().then(setProgressFraction);
+  }, []);
+  
   useEffect(()=> {
     void (
       setCurrentTransfer(
@@ -52,10 +59,11 @@ function App() {
   }, []);
 
   const saveTransfer = useMemo(()=> ()=> {
+    setIsSaving(true);
     putTransfer(currentTransfer)
       .then(res => {
         setTransfers(old => [...old, {...currentTransfer}]);
-      });
+      }).finally(()=> setIsSaving(false))
   }, [currentTransfer]);
 
   useEffect(()=> void loadFiles(), []);
@@ -91,7 +99,7 @@ function App() {
       </div>
       <div className='main'>
         <div className='left-menu'>
-          <h2>Files</h2>
+          <h2>Files - {(progressFraction*100).toFixed(2)}% Translated</h2>
           <ul className='files-list'>
             {
               files.map((file)=>(
@@ -104,7 +112,7 @@ function App() {
                   }}
                   key={file.filename}
                   className={file.filename === currentFile?.filename ? 'active' : ''}
-                  onClick={()=> selectFile(file)}>
+                  onClick={()=> !isSaving && selectFile(file)}>
                   {file.filename.substr(11)}
                   {' - '}
                   {(file.progress?.completed || 0)}/
@@ -124,7 +132,7 @@ function App() {
                     }}
                     key={block.label}
                     className={block.label === currentBlock?.label ? 'active' : ''}
-                    onClick={()=> setCurrentBlock(block)}>
+                    onClick={()=> !isSaving && setCurrentBlock(block)}>
                     {block.label}
                   </li>
                 ))
@@ -166,7 +174,9 @@ function App() {
           {
             !currentTransfer? null : (
               <li key='save'>
-                <button onClick={saveTransfer}>Save</button>
+                <button disabled={isSaving} onClick={saveTransfer}>
+                  Save
+                </button>
               </li>
             )
           }

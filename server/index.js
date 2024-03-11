@@ -32,6 +32,12 @@ const files = Array.from(new Set(
     }), { blocks: 0, completed: 0 })
 }));
 
+const progressFraction = blocks.filter(block=> block.hasTranslation).length / blocks.length;
+
+app.get('/progressFraction', (req, res)=>{
+  res.json({ progressFraction });
+});
+
 app.get('/files', (req, res) => {
   res.json(files);
 });
