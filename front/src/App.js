@@ -20,8 +20,8 @@ function App() {
   
   const [currentFile, setCurrentFile] = useState();
   const currentBlocks = useMemo(()=> (
-    blocks.filter(block=> block.file === currentFile)
-  ), [currentFile]);
+    blocks.filter(block=> block.file === currentFile.filename)
+  ), [blocks, currentFile]);
 
   const [currentTransfer, setCurrentTransfer] = useState(null);
 
@@ -41,7 +41,7 @@ function App() {
         })
       )
     )
-  }, [currentBlock]);
+  }, [transfers, currentBlock]);
   
   const loadFiles = useMemo(()=> ()=> {
     fetchFiles().then(setFiles);
@@ -64,18 +64,18 @@ function App() {
   const selectFile = useMemo(()=> (file)=> {
     setCurrentBlock(null);
     
-    if(loadedFiles.includes(file)){
+    if(loadedFiles.find(f=> f.filename === file.filename)){
       setCurrentFile(file);
     } else {
-      fetchBlocks({ file }).then(nuBlocks => {
+      fetchBlocks({ file: file.filename }).then(nuBlocks => {
         setBlocks(oldBlocks => [
-          ...oldBlocks.filter(block => block.file !== file),
+          ...oldBlocks.filter(block => block.file !== file.filename),
           ...nuBlocks,
         ]);
 
         setCurrentFile(file);
         setLoadedFiles(old=> [
-          ...old.filter(f=> f !== file),
+          ...old.filter(f=> f.filename !== file.filename),
           file,
         ]);
       });
@@ -90,33 +90,50 @@ function App() {
         <h1>תירגום לגירסה אדומה</h1>
       </div>
       <div className='main'>
-        <h2>Files</h2>
-        <ul>
-          {
-            files.map((file)=>(
-              <li
-                key={file}
-                className={file === currentFile ? 'active' : ''}
-                onClick={()=> selectFile(file)}>
-                {file.substr(11)}
-              </li>
-            ))
-          }
-        </ul>
-        
-        <ul>
-          {
-            currentBlocks.map(block=> (
-              <li
-                key={block.label}
-                className={block.label === currentBlock?.label ? 'active' : ''}
-                onClick={()=> setCurrentBlock(block)}>
-                {block.label}
-              </li>
-            ))
-          }
-        </ul>
+        <div className='left-menu'>
+          <h2>Files</h2>
+          <ul className='files-list'>
+            {
+              files.map((file)=>(
+                <li
+                  style={{
+                    fontWeight: Math.min(9, 2+Math.round(
+                      12*(file.progress?.completed || 0)/
+                      (file.progress?.blocks || 1)
+                    ))+'00'
+                  }}
+                  key={file.filename}
+                  className={file.filename === currentFile?.filename ? 'active' : ''}
+                  onClick={()=> selectFile(file)}>
+                  {file.filename.substr(11)}
+                  {' - '}
+                  {(file.progress?.completed || 0)}/
+                  { (file.progress?.blocks || 1)}
+                </li>
+              ))
+            }
+          </ul>
 
+          {!currentFile ? null : (
+            <ul className='labels-list'>
+              {
+                currentBlocks.map(block=> (
+                  <li
+                    style={{
+                      fontWeight: block.hasTranslation ? 'bold' : '100'
+                    }}
+                    key={block.label}
+                    className={block.label === currentBlock?.label ? 'active' : ''}
+                    onClick={()=> setCurrentBlock(block)}>
+                    {block.label}
+                  </li>
+                ))
+              }
+            </ul>
+          )}
+
+        </div>
+        
         <ul>
           {
             !currentBlock ? null : (

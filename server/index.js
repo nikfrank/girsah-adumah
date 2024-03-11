@@ -6,15 +6,34 @@ const fs = require('fs').promises;
 
 app.use(express.json());
 
-const blocks = require('../translation/blocks.json');
 let transfers = require('../translation/transfers.json');
 
+const blocks = require('../translation/blocks.json').map(block => {
+  const cmds = block.cmds.map(c=> c.cmd[1]).join();
+  return {
+    ...block,
+    hasTranslation: transfers.find(t=> (
+      (t.file === block.file) &&
+      (t.label === block.label) &&
+      cmds === t.src.join()
+    )),
+  };
+});
+
+const files = Array.from(new Set(
+  blocks.map(block => block.file)
+)).map(filename=> ({
+  filename,
+  progress: blocks
+    .filter(block => block.file === filename)
+    .reduce((totals, block)=> ({
+      blocks: totals.blocks + 1,
+      completed: totals.completed + (block.hasTranslation ? 1 : 0)
+    }), { blocks: 0, completed: 0 })
+}));
+
 app.get('/files', (req, res) => {
-  res.json(
-    Array.from(new Set(
-      blocks.map(block => block.file)
-    ))
-  );
+  res.json(files);
 });
 
 // paginate?
