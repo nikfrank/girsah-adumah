@@ -941,84 +941,6 @@
     ]
   },
   {
-    "file": "../pokered/data/events/prizes.asm",
-    "label": "PrizeMenuMon1Entries",
-    "cmds": [
-      {
-        "cmd": [
-          "db",
-          "@"
-        ],
-        "ln": 18
-      }
-    ]
-  },
-  {
-    "file": "../pokered/data/events/prizes.asm",
-    "label": "PrizeMenuMon1Cost",
-    "cmds": [
-      {
-        "cmd": [
-          "db",
-          "@"
-        ],
-        "ln": 30
-      }
-    ]
-  },
-  {
-    "file": "../pokered/data/events/prizes.asm",
-    "label": "PrizeMenuMon2Entries",
-    "cmds": [
-      {
-        "cmd": [
-          "db",
-          "@"
-        ],
-        "ln": 42
-      }
-    ]
-  },
-  {
-    "file": "../pokered/data/events/prizes.asm",
-    "label": "PrizeMenuMon2Cost",
-    "cmds": [
-      {
-        "cmd": [
-          "db",
-          "@"
-        ],
-        "ln": 55
-      }
-    ]
-  },
-  {
-    "file": "../pokered/data/events/prizes.asm",
-    "label": "PrizeMenuTMsEntries",
-    "cmds": [
-      {
-        "cmd": [
-          "db",
-          "@"
-        ],
-        "ln": 61
-      }
-    ]
-  },
-  {
-    "file": "../pokered/data/events/prizes.asm",
-    "label": "PrizeMenuTMsCost",
-    "cmds": [
-      {
-        "cmd": [
-          "db",
-          "@"
-        ],
-        "ln": 67
-      }
-    ]
-  },
-  {
     "file": "../pokered/data/events/trades.asm",
     "label": "TradeMons",
     "cmds": [
@@ -30064,32 +29986,6 @@
     ]
   },
   {
-    "file": "../pokered/engine/battle/core.asm",
-    "label": "PrintEmptyString",
-    "cmds": [
-      {
-        "cmd": [
-          "db",
-          "@"
-        ],
-        "ln": 6665
-      }
-    ]
-  },
-  {
-    "file": "../pokered/engine/battle/core.asm",
-    "label": "_InitBattleCommon",
-    "cmds": [
-      {
-        "cmd": [
-          "db",
-          "@"
-        ],
-        "ln": 6909
-      }
-    ]
-  },
-  {
     "file": "../pokered/engine/battle/end_of_battle.asm",
     "label": "YouWinText",
     "cmds": [
@@ -30176,19 +30072,6 @@
   },
   {
     "file": "../pokered/engine/events/diploma.asm",
-    "label": "DiplomaText",
-    "cmds": [
-      {
-        "cmd": [
-          "db",
-          "@"
-        ],
-        "ln": 101
-      }
-    ]
-  },
-  {
-    "file": "../pokered/engine/events/diploma.asm",
     "label": "DiplomaPlayer",
     "cmds": [
       {
@@ -30197,19 +30080,6 @@
           "Player@"
         ],
         "ln": 104
-      }
-    ]
-  },
-  {
-    "file": "../pokered/engine/events/diploma.asm",
-    "label": "DiplomaEmptyText",
-    "cmds": [
-      {
-        "cmd": [
-          "db",
-          "@"
-        ],
-        "ln": 107
       }
     ]
   },
@@ -30305,19 +30175,6 @@
           "CANCEL@"
         ],
         "ln": 130
-      }
-    ]
-  },
-  {
-    "file": "../pokered/engine/events/hidden_objects/blues_room.asm",
-    "label": "UnusedPredefText",
-    "cmds": [
-      {
-        "cmd": [
-          "db",
-          "@"
-        ],
-        "ln": 5
       }
     ]
   },
@@ -31151,19 +31008,6 @@
     ]
   },
   {
-    "file": "../pokered/engine/menus/pokedex.asm",
-    "label": "PokedexDataDividerLine",
-    "cmds": [
-      {
-        "cmd": [
-          "db",
-          "@"
-        ],
-        "ln": 604
-      }
-    ]
-  },
-  {
     "file": "../pokered/engine/menus/players_pc.asm",
     "label": "PlayersPCMenuEntries",
     "cmds": [
@@ -31341,19 +31185,6 @@
     ]
   },
   {
-    "file": "../pokered/engine/menus/start_sub_menus.asm",
-    "label": "TrainerInfo_BadgesText",
-    "cmds": [
-      {
-        "cmd": [
-          "db",
-          "@"
-        ],
-        "ln": 578
-      }
-    ]
-  },
-  {
     "file": "../pokered/engine/menus/text_box.asm",
     "label": "CurrencyString",
     "cmds": [
@@ -31460,26 +31291,6 @@
     ]
   },
   {
-    "file": "../pokered/engine/movie/credits.asm",
-    "label": "TheEndTextString",
-    "cmds": [
-      {
-        "cmd": [
-          "db",
-          "@"
-        ],
-        "ln": 261
-      },
-      {
-        "cmd": [
-          "db",
-          "@"
-        ],
-        "ln": 262
-      }
-    ]
-  },
-  {
     "file": "../pokered/engine/movie/oak_speech/oak_speech2.asm",
     "label": "DisplayIntroNameTextBox",
     "cmds": [
@@ -31523,19 +31334,6 @@
           "<ID>№<DOT>@"
         ],
         "ln": 49
-      }
-    ]
-  },
-  {
-    "file": "../pokered/engine/movie/title.asm",
-    "label": "CopyrightTextString",
-    "cmds": [
-      {
-        "cmd": [
-          "db",
-          "@"
-        ],
-        "ln": 391
       }
     ]
   },
@@ -32347,18 +32145,6 @@
           "<PK><MN>@"
         ],
         "ln": 186
-      }
-    ]
-  },
-  {
-    "file": "../pokered/macros/asserts.asm",
-    "cmds": [
-      {
-        "cmd": [
-          "db",
-          "@"
-        ],
-        "ln": 31
       }
     ]
   },

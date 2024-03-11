@@ -157,7 +157,7 @@ const readPlayerStrings = async ()=>{
           const [l, command, str] = text;
           
           // if(routine) console.log(routine);
-          setBlock(file, label, [command, str], ln+1);
+          if(str !== '@') setBlock(file, label, [command, str], ln+1);
         } else if(genCommand && !genCommand[1].indexOf('text_')){
           setBlock(file, label, [genCommand[1]], ln+1);
         }

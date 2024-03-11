@@ -146,7 +146,9 @@ function App() {
           {
             !currentBlock ? null : (
               currentBlock.cmds.map((cmd, i)=> (
-                <li key={i}>
+                <li key={i} style={{
+                  display: (!cmd.cmd[1] || cmd.cmd[1] == '@') ? 'none':'block'
+                }}>
                   <span>
                     {cmd.cmd[1]}
                   </span>
