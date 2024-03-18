@@ -62,7 +62,9 @@ function App() {
     setIsSaving(true);
     putTransfer(currentTransfer)
       .then(res => {
-        setTransfers(old => [...old, {...currentTransfer}]);
+        setTransfers(old => [...old.filter(({file, label})=>
+          (file !== currentTransfer.file || label !== currentTransfer.label))
+          , {...currentTransfer}]);
       }).finally(()=> setIsSaving(false))
   }, [currentTransfer]);
 
@@ -121,27 +123,26 @@ function App() {
               ))
             }
           </ul>
-
-          {!currentFile ? null : (
-            <ul className='labels-list'>
-              {
-                currentBlocks.map(block=> (
-                  <li
-                    style={{
-                      fontWeight: block.hasTranslation ? 'bold' : '100'
-                    }}
-                    key={block.label}
-                    className={block.label === currentBlock?.label ? 'active' : ''}
-                    onClick={()=> !isSaving && setCurrentBlock(block)}>
-                    {block.label}
-                  </li>
-                ))
-              }
-            </ul>
-          )}
-
         </div>
         
+        {!currentFile ? null : (
+          <ul className='labels-list'>
+            {
+              currentBlocks.map(block=> (
+                <li
+                  style={{
+                    fontWeight: block.hasTranslation ? 'bold' : '100'
+                  }}
+                  key={block.label}
+                  className={block.label === currentBlock?.label ? 'active' : ''}
+                  onClick={()=> !isSaving && setCurrentBlock(block)}>
+                  {block.label}
+                </li>
+              ))
+            }
+          </ul>
+        )}
+      
         <ul>
           {
             !currentBlock ? null : (
@@ -152,7 +153,7 @@ function App() {
                   <span>
                     {cmd.cmd[1]}
                   </span>
-
+                  
                   {
                     !currentTransfer ? <div/> : (
                       <LeftyTextInput
