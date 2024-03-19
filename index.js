@@ -192,7 +192,7 @@ const renderGameInHebrew = async ()=>{
   // diffs for font, other png files in ./hebrew-support.patch
 
   // assert git status clean
-  const gitStatus = (await (new Promise((s,j)=>
+  let gitStatus = (await (new Promise((s,j)=>
     exec('cd ../pokered && git status', (err, stdout, stderr) => {
       if (err) return j(err);
       else return s(stdout);
@@ -213,6 +213,13 @@ const renderGameInHebrew = async ()=>{
         else return s(stdout);
       }
     )
+    ))).split('\n');
+    
+    gitStatus = (await (new Promise((s,j)=>
+      exec('cd ../pokered && git status', (err, stdout, stderr) => {
+        if (err) return j(err);
+        else return s(stdout);
+      })
     ))).split('\n');
   }
 
