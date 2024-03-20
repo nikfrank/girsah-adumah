@@ -1,4 +1,4 @@
-import { useRef } from 'react';
+import { useRef, useEffect } from 'react';
 import './LeftyTextInput.css';
 
 const tenArray = Array(21).fill(null);
@@ -9,7 +9,6 @@ export const LeftyTextInput = ({
 })=>{
 
   const refs = tenArray.map(useRef);
-
   return (
     <div className='lefty-text-input'>
       {
@@ -43,10 +42,11 @@ export const LeftyTextInput = ({
 		else if(e.key === 'ArrowRight')
 		    refs[i - 1]?.current?.focus();
             }}
-            onChange={(e)=>{
+          onChange={(e)=>{
+            console.log(e.target.value.indexOf(value[i]), value[value.length - i - 1]);
               onChange([
                 value.substr(0, value.length - i - 1),
-                (e.target.value[e.target.value.length-1] ?? ''),
+                (e.target.value[(e.target.value.indexOf(value[value.length - i - 1]) + 1) % e.target.value.length] ?? ''),
                 value.substr(value.length - i)
               ].join(''));
 

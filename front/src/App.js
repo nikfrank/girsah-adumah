@@ -31,7 +31,8 @@ function App() {
   useEffect(()=> {
     fetchProgressFraction().then(setProgressFraction);
   }, []);
-  
+
+  useEffect(() => console.log(currentTransfer), [currentTransfer]);
   useEffect(()=> {
     void (
       setCurrentTransfer(
@@ -148,7 +149,7 @@ function App() {
             !currentBlock ? null : (
               currentBlock.cmds.map((cmd, i)=> (
                 <li key={i} style={{
-                  display: (!cmd.cmd[1] || cmd.cmd[1] == '@') ? 'none':'block'
+                  display: (!cmd.cmd[1] || cmd.cmd[1] === '@') ? 'none':'block'
                 }}>
                   <span>
                     {cmd.cmd[1]}
