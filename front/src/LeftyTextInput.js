@@ -1,4 +1,4 @@
-import { useRef, useEffect } from 'react';
+import { useRef } from 'react';
 import './LeftyTextInput.css';
 
 const tenArray = Array(21).fill(null);
@@ -43,7 +43,6 @@ export const LeftyTextInput = ({
 		    refs[i - 1]?.current?.focus();
             }}
           onChange={(e)=>{
-            console.log(e.target.value.indexOf(value[i]), value[value.length - i - 1]);
               onChange([
                 value.substr(0, value.length - i - 1),
                 (e.target.value[(e.target.value.indexOf(value[value.length - i - 1]) + 1) % e.target.value.length] ?? ''),

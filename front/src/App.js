@@ -32,7 +32,6 @@ function App() {
     fetchProgressFraction().then(setProgressFraction);
   }, []);
 
-  useEffect(() => console.log(currentTransfer), [currentTransfer]);
   useEffect(()=> {
     void (
       setCurrentTransfer(
