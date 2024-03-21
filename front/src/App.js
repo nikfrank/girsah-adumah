@@ -7,6 +7,7 @@ import {
   fetchTransfers,
   putTransfer,
   fetchProgressFraction,
+  fetchSearch,
 } from './network';
 
 import { LeftyTextInput } from './LeftyTextInput';
@@ -17,6 +18,7 @@ function App() {
   const [files, setFiles] = useState([]);
   const [blocks, setBlocks] = useState([]);
   const [transfers, setTransfers] = useState([]);
+  const [searchResults, setSearchResults] = useState([]);
   const [loadedFiles, setLoadedFiles] = useState([]);
 
   const [currentBlock, setCurrentBlock] = useState();
@@ -49,6 +51,10 @@ function App() {
       )
     )
   }, [transfers, currentBlock]);
+
+  const searchBlocks = useMemo(()=> (searchString)=> {
+    fetchSearch({searchString}).then(setSearchResults);
+  }, []);
   
   const loadFiles = useMemo(()=> ()=> {
     fetchFiles().then(setFiles);
@@ -185,7 +191,16 @@ function App() {
           }
 
         </ul>
-
+        <div>
+          <input onChange={(e)=> searchBlocks(e.target.value)}/>
+          <ul>
+              {
+                (searchResults.map((result, i)=> (
+                  <li key={i}><p>{result.file}.{result.label}</p></li>
+                )))
+              }
+          </ul>
+        </div>
       </div>
     </div>
   );

@@ -20,6 +20,14 @@ export const fetchTransfers = ()=>
   fetch('/transfers')
     .then(res=> res.json());
 
+export const fetchSearch = ({ searchString })=>
+  fetch('/search', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ searchString }),
+  })
+    .then(res=> res.json());
+    
 export const putTransfer = ({
   file, label,
   src, to,
@@ -32,4 +40,4 @@ export const putTransfer = ({
         src, to,
       }),
     })
-      .then(res=> res.json())
+      .then(res=> res.json());

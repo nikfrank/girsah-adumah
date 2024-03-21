@@ -38,11 +38,12 @@ export const LeftyTextInput = ({
 
                 refs[i-1]?.current?.focus();
               } else if(e.key === 'ArrowLeft')
-		  refs[i + 1]?.current?.focus();
+                  refs[i + 1]?.current?.focus();
 		
-		else if(e.key === 'ArrowRight')
-		    refs[i - 1]?.current?.focus();
+                else if(e.key === 'ArrowRight')
+          		    refs[i - 1]?.current?.focus();
             }}
+
             onChange={(e)=>{
               onChange([
                 value.substr(0, value.length - i - 1),

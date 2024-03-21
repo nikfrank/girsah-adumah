@@ -94,6 +94,10 @@ app.put('/transfers', async (req, res)=>{
   return res.status(statusCode).json({ status: 'success' });
 });
 
+app.post('/search', async (req, res)=>{
+  res.status(200).json(blocks.filter(block=> block.cmds.some(cmd=> cmd.cmd[1] && cmd.cmd[1].includes(req.body.searchString))));
+});
+
 app.listen(port, () => {
   console.log(`Example app listening on port ${port}`)
 });
