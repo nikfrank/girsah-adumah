@@ -95,7 +95,12 @@ app.put('/transfers', async (req, res)=>{
 });
 
 app.post('/search', async (req, res)=>{
-  res.status(200).json(blocks.filter(block=> block.cmds.some(cmd=> cmd.cmd[1] && cmd.cmd[1].includes(req.body.searchString))));
+  res.status(200).json(blocks.reduce((results, block) => {
+    const cmds = block.cmds.filter(cmd=> cmd.cmd[1] && cmd.cmd[1].toLowerCase().includes(req.body.searchString.toLowerCase()));
+    if(cmds.length > 0)
+      results.push({...block, cmds: cmds});
+    return results;
+  }, []));
 });
 
 app.listen(port, () => {
