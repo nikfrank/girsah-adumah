@@ -7,6 +7,7 @@ import {
   fetchTransfers,
   putTransfer,
   fetchProgressFraction,
+	fetchSearch,
 } from './network';
 
 import { LeftyTextInput } from './LeftyTextInput';
@@ -16,6 +17,7 @@ function App() {
   const [isSaving, setIsSaving] = useState(false);
   const [files, setFiles] = useState([]);
   const [blocks, setBlocks] = useState([]);
+  const [searchResults, setSearchResults] = useState([]);
   const [transfers, setTransfers] = useState([]);
   const [loadedFiles, setLoadedFiles] = useState([]);
 
@@ -58,6 +60,10 @@ function App() {
     fetchTransfers().then(setTransfers);
   }, []);
 
+  const searchBlocks = useMemo(()=> (searchString)=> {
+    fetchSearch({ searchString }).then(setSearchResults);
+  }, []);
+	
   const saveTransfer = useMemo(()=> ()=> {
     setIsSaving(true);
     putTransfer(currentTransfer)
@@ -187,27 +193,26 @@ function App() {
           }
 
         </ul>
-<div className="search-menu">
+				<div className="search-menu">
           <input onChange={e=> e.target.value ? searchBlocks(e.target.value) : setSearchResults([])}/>
           <ul>
-              {
-                (searchResults.map((result, i)=> (
-                  <li key={i} onClick={() => selectFileAndLabel(files.find(f => f.filename === result.file), result.label)}>
-                    <div>
-                      <p>file: {result.file.substr(11)}</p>
-                    
-                      <p>label: {result.label}</p>
-                    </div>
-                    <div>
-                      <ul>
-                        {result.cmds.map((cmd, i)=> (
-                          <li key={i}>{cmd.cmd[1]}</li>
-                         ))}
-                      </ul>
-                    </div>
-                  </li>
-                )))
-              }
+            {
+              (searchResults.map((result, i)=> (
+                <li key={i} onClick={()=> selectFileAndLabel(files.find(f => f.filename === result.file), result.label)}>
+                  <div>
+                    <p>file: {result.file.substr(11)}</p>
+                    <p>label: {result.label}</p>
+                  </div>
+                  <div>
+                    <ul>
+                      {result.cmds.map((cmd, i)=> (
+                        <li key={i}>{cmd.cmd[1]}</li>
+                       ))}
+                    </ul>
+                  </div>
+                </li>
+              )))
+            }
           </ul>
         </div>
       </div>
