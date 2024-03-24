@@ -187,7 +187,29 @@ function App() {
           }
 
         </ul>
-
+<div className="search-menu">
+          <input onChange={e=> e.target.value ? searchBlocks(e.target.value) : setSearchResults([])}/>
+          <ul>
+              {
+                (searchResults.map((result, i)=> (
+                  <li key={i} onClick={() => selectFileAndLabel(files.find(f => f.filename === result.file), result.label)}>
+                    <div>
+                      <p>file: {result.file.substr(11)}</p>
+                    
+                      <p>label: {result.label}</p>
+                    </div>
+                    <div>
+                      <ul>
+                        {result.cmds.map((cmd, i)=> (
+                          <li key={i}>{cmd.cmd[1]}</li>
+                         ))}
+                      </ul>
+                    </div>
+                  </li>
+                )))
+              }
+          </ul>
+        </div>
       </div>
     </div>
   );
