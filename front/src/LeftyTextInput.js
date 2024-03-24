@@ -46,7 +46,12 @@ export const LeftyTextInput = ({
             onChange={(e)=>{
               onChange([
                 value.substr(0, value.length - i - 1),
-                (e.target.value[e.target.value.length-1] ?? ''),
+                (e.target.value?.split('')
+                                .filter(c => c !== value[value.length - i - 1])
+                                .join('') ||
+                  value[value.length - i - 1] || 
+                  ''
+                ),
                 value.substr(value.length - i)
               ].join(''));
 
