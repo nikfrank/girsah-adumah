@@ -71,18 +71,20 @@ function App() {
   useEffect(()=> void loadFiles(), []);
   useEffect(()=> void loadTransfers(), []);
 
-  const selectFile = useMemo(()=> (file)=> {
+  const selectFileAndLabel = useMemo(()=> (file, label)=> {
     setCurrentBlock(null);
     
     if(loadedFiles.find(f=> f.filename === file.filename)){
       setCurrentFile(file);
+      setCurrentBlock(blocks.find(block=> block.label === label));
     } else {
       fetchBlocks({ file: file.filename }).then(nuBlocks => {
         setBlocks(oldBlocks => [
           ...oldBlocks.filter(block => block.file !== file.filename),
           ...nuBlocks,
         ]);
-
+        
+        setCurrentBlock(nuBlocks.find(block=> block.label === label));
         setCurrentFile(file);
         setLoadedFiles(old=> [
           ...old.filter(f=> f.filename !== file.filename),
@@ -114,7 +116,7 @@ function App() {
                   }}
                   key={file.filename}
                   className={file.filename === currentFile?.filename ? 'active' : ''}
-                  onClick={()=> !isSaving && selectFile(file)}>
+                  onClick={()=> !isSaving && selectFileAndLabel(file)}>
                   {file.filename.substr(11)}
                   {' - '}
                   {(file.progress?.completed || 0)}/
