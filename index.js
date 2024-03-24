@@ -192,16 +192,37 @@ const renderGameInHebrew = async ()=>{
   // diffs for font, other png files in ./hebrew-support.patch
 
   // assert git status clean
-  const gitStatus = (await (new Promise((s,j)=>
+  let gitStatus = (await (new Promise((s,j)=>
     exec('cd ../pokered && git status', (err, stdout, stderr) => {
       if (err) return j(err);
       else return s(stdout);
     })
   ))).split('\n');
 
-  if( gitStatus[0].split(' ')[2] !== 'master' )
-    return console.log('not on branch master - fatal. take this check out svp');
-  
+  if( gitStatus[0].split(' ')[2] !== 'master' ){
+    console.log('not on branch master - changing to branch master');
+    const gitChangeBranch = (await (new Promise((s,j)=>
+    exec(
+      [
+        'cd ../pokered',
+        'git stash',
+        'git checkout master',
+      ].join(' && '),
+      (err, stdout, stderr) => {
+        if (err) return j(err);
+        else return s(stdout);
+      }
+    )
+    ))).split('\n');
+    
+    gitStatus = (await (new Promise((s,j)=>
+      exec('cd ../pokered && git status', (err, stdout, stderr) => {
+        if (err) return j(err);
+        else return s(stdout);
+      })
+    ))).split('\n');
+  }
+
   if( !gitStatus.find(t=> t=== 'nothing to commit, working tree clean' ))
     return console.log('working tree not clean - fatal');
 
@@ -253,7 +274,7 @@ const renderGameInHebrew = async ()=>{
 
         const seds = src.map(
           (cmd, i)=> `sed -i 's/"${src[i].replace(/'/g, '\\x27')}"/"${to[i].replace(/'/g, '\\x27')}"/g' ${file}`
-        );
+        ).filter((sed, i) => to[i] !== '');
         return seds;
       };
     }).filter(i=>i).flat()
