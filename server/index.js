@@ -94,6 +94,20 @@ app.put('/transfers', async (req, res)=>{
   return res.status(statusCode).json({ status: 'success' });
 });
 
+app.post('/search', (req, res)=> {
+  const searchResultBlocks = blocks.reduce((results, block)=> {
+    const cmds = block.cmds.filter(cmd=> (
+      cmd.cmd[1] && cmd.cmd[1].toLowerCase().includes(
+        req.body.searchString ? req.body.searchString.toLowerCase() : null
+      ))
+    );
+		
+    return !cmds.length ? results : [...results, {...block, cmds}];
+  }, []);
+
+  res.json(searchResultBlocks);
+});
+
 app.listen(port, () => {
   console.log(`Example app listening on port ${port}`)
 });

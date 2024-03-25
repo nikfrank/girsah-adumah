@@ -7,6 +7,7 @@ import {
   fetchTransfers,
   putTransfer,
   fetchProgressFraction,
+	fetchSearch,
 } from './network';
 
 import { LeftyTextInput } from './LeftyTextInput';
@@ -16,6 +17,7 @@ function App() {
   const [isSaving, setIsSaving] = useState(false);
   const [files, setFiles] = useState([]);
   const [blocks, setBlocks] = useState([]);
+  const [searchResults, setSearchResults] = useState([]);
   const [transfers, setTransfers] = useState([]);
   const [loadedFiles, setLoadedFiles] = useState([]);
 
@@ -58,6 +60,10 @@ function App() {
     fetchTransfers().then(setTransfers);
   }, []);
 
+  const searchBlocks = useMemo(()=> (searchString)=> {
+    fetchSearch({ searchString }).then(setSearchResults);
+  }, []);
+	
   const saveTransfer = useMemo(()=> ()=> {
     setIsSaving(true);
     putTransfer(currentTransfer)
@@ -71,18 +77,20 @@ function App() {
   useEffect(()=> void loadFiles(), []);
   useEffect(()=> void loadTransfers(), []);
 
-  const selectFile = useMemo(()=> (file)=> {
+  const selectFileAndLabel = useMemo(()=> (file, label)=> {
     setCurrentBlock(null);
     
     if(loadedFiles.find(f=> f.filename === file.filename)){
       setCurrentFile(file);
+      setCurrentBlock(blocks.find(block=> block.label === label));
     } else {
       fetchBlocks({ file: file.filename }).then(nuBlocks => {
         setBlocks(oldBlocks => [
           ...oldBlocks.filter(block => block.file !== file.filename),
           ...nuBlocks,
         ]);
-
+        
+        setCurrentBlock(nuBlocks.find(block=> block.label === label));
         setCurrentFile(file);
         setLoadedFiles(old=> [
           ...old.filter(f=> f.filename !== file.filename),
@@ -114,7 +122,7 @@ function App() {
                   }}
                   key={file.filename}
                   className={file.filename === currentFile?.filename ? 'active' : ''}
-                  onClick={()=> !isSaving && selectFile(file)}>
+                  onClick={()=> !isSaving && selectFileAndLabel(file)}>
                   {file.filename.substr(11)}
                   {' - '}
                   {(file.progress?.completed || 0)}/
@@ -185,7 +193,28 @@ function App() {
           }
 
         </ul>
-
+				<div className="search-menu">
+          <input onChange={e=> e.target.value ? searchBlocks(e.target.value) : setSearchResults([])}/>
+          <ul>
+            {
+              (searchResults.map((result, i)=> (
+                <li key={i} onClick={()=> selectFileAndLabel(files.find(f => f.filename === result.file), result.label)}>
+                  <div>
+                    <p>file: {result.file.substr(11)}</p>
+                    <p>label: {result.label}</p>
+                  </div>
+                  <div>
+                    <ul>
+                      {result.cmds.map((cmd, i)=> (
+                        <li key={i}>{cmd.cmd[1]}</li>
+                       ))}
+                    </ul>
+                  </div>
+                </li>
+              )))
+            }
+          </ul>
+        </div>
       </div>
     </div>
   );
