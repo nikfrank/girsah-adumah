@@ -33,8 +33,6 @@ ul {
 
 ul.files-list {
   font-size: 0.9375rem;
-
-  border-bottom: 2px dashed black;
 }
 
 .left-menu {
@@ -84,4 +82,10 @@ li.active {
 
 li.active {
   text-decoration: underline;
+}
+
+.search-input {
+	float: right;
+	margin-right: 10rem;
+	width: 20rem;
 }

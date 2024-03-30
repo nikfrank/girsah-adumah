@@ -106,6 +106,7 @@ function App() {
     <div className="App">
       <div className='top-nav'>
         <h1>תירגום לגירסה אדומה</h1>
+        <input className='search-input' placeholder='search...' onChange={e=> e.target.value ? searchBlocks(e.target.value) : setSearchResults([])}/>
       </div>
       <div className='main'>
         <div className='left-menu'>
@@ -193,8 +194,7 @@ function App() {
           }
 
         </ul>
-				<div className="search-menu">
-          <input onChange={e=> e.target.value ? searchBlocks(e.target.value) : setSearchResults([])}/>
+        <div className="search-menu">
           <ul>
             {
               (searchResults.map((result, i)=> (
