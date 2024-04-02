@@ -40,14 +40,6 @@ ul.files-list {
   flex-direction: column;
 }
 
-.left-menu .labels-list {
-  min-height: 30%;
-}
-
-li.active {
-  text-decoration: underline;
-}
-
 .labels-list {
   min-height: 30%
 }
@@ -57,7 +49,7 @@ li.active {
   flex-direction: column;
   margin-right: 0;
   margin-left: auto;
-  width: 30%;
+  min-width: 35rem;
   font-size: 0.9375rem;
 }
 
@@ -66,24 +58,14 @@ li.active {
   flex-direction: row;
   border-bottom: 2px dashed black;
 }
-.search-menu ul li div:first-child{
-  position: relative;
-}
-
-.search-menu ul li div:first-child{
-  min-width: 70%;
-  max-width: 70%;
-}
-
-.search-menu > input {
-  justify-self: right;
-  width: 50%;
-}
 
 li.active {
   text-decoration: underline;
 }
 
+div.active {
+  font-weight: bold;
+}
 .search-input {
 	float: right;
 	margin-right: 10rem;

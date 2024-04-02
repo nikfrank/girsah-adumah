@@ -96,13 +96,11 @@ app.put('/transfers', async (req, res)=>{
 
 app.post('/search', (req, res)=> {
   const searchResultBlocks = blocks.reduce((results, block)=> {
-    const cmds = block.cmds.filter(cmd=> (
-      cmd.cmd[1] && cmd.cmd[1].toLowerCase().includes(
-        req.body.searchString ? req.body.searchString.toLowerCase() : null
-      ))
-    );
-		
-    return !cmds.length ? results : [...results, {...block, cmds}];
+    const cmdJoined = block.cmds.map(cmd=> cmd.cmd[1]).join(' ')
+          .toLowerCase()
+          .replace(/  +/g, ' ');
+    
+    return !cmdJoined.includes(req.body.searchString.toLowerCase()) ? results : [...results, block];
   }, []);
 
   res.json(searchResultBlocks);

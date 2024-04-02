@@ -199,16 +199,9 @@ function App() {
             {
               (searchResults.map((result, i)=> (
                 <li key={i} onClick={()=> selectFileAndLabel(files.find(f => f.filename === result.file), result.label)}>
-                  <div>
+                  <div className={result.file === currentFile?.filename && result.label === currentBlock?.label ? 'active' : ''}>
                     <p>file: {result.file.substr(11)}</p>
                     <p>label: {result.label}</p>
-                  </div>
-                  <div>
-                    <ul>
-                      {result.cmds.map((cmd, i)=> (
-                        <li key={i}>{cmd.cmd[1]}</li>
-                       ))}
-                    </ul>
                   </div>
                 </li>
               )))
